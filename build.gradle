@@ -1,0 +1,55 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+group = 'com.wallet'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+    compileOnly 'org.projectlombok:lombok'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: "junit", module: "junit"
+    }
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+test {
+    systemProperty 'spring.profiles.active', 'test'
+    useJUnitPlatform()
+    reports {
+        junitXml.enabled = true
+        html.enabled = false
+    }
+}
